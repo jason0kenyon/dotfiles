@@ -72,7 +72,7 @@ require("nvim-tree").setup({
     group_empty = true,
   },
   filters = {
-    dotfiles = true,
+    dotfiles = false,
   },
 })
 --status bar. check out https://github.com/nvim-lualine/lualine.nvim for a list of themes and other more advanced configuration. If you don't have the proper fonts the bar 
@@ -134,6 +134,45 @@ vim.keymap.set('n', 'fh', builtin.help_tags, {})
     }
   }
 
+local npairs = require("nvim-autopairs")
+local Rule = require('nvim-autopairs.rule')
+
+npairs.setup({
+    check_ts = true,
+    ts_config = {
+        lua = {'string'},-- it will not add a pair on that treesitter node
+        javascript = {'template_string'},
+        java = false,-- don't check treesitter on java
+    }
+})
+require'nvim-web-devicons'.setup {
+ -- your personnal icons can go here (to override)
+ -- you can specify color or cterm_color instead of specifying both of them
+ -- DevIcon will be appended to `name`
+ override = {
+  zsh = {
+    icon = "",
+    color = "#428850",
+    cterm_color = "65",
+    name = "Zsh"
+  }
+ };
+ -- globally enable different highlight colors per icon (default to true)
+ -- if set to false all icons will have the default icon's color
+ color_icons = true;
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+ default = true;
+}
+local ts_conds = require('nvim-autopairs.ts-conds')
+-- press % => %% only while inside a comment or string
+npairs.add_rules({
+  Rule("%", "%", "lua")
+    :with_pair(ts_conds.is_ts_node({'string','comment'})),
+  Rule("$", "$", "lua")
+    :with_pair(ts_conds.is_not_ts_node({'function'}))
+})
 vim.keymap.set('n', '<leader>v', '<CMD>vsplit<CR>')
 vim.keymap.set('n', '<leader>q', '<CMD>quit<CR>')
-vim.keymap.set('n', '<leader>n', '<CMD>split<CR>')
+vim.keymap.set('n', '<leader>qq', '<CMD>q!<CR>')
+vim.keymap.set('n', '<leader>wq', '<CMD>wq!<CR>')

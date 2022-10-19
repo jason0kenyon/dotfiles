@@ -3,9 +3,10 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 export HISTCONTROL=ignoreboth:erasedups
 export PAGER='nvim'
+export GDK_SCALE=2
+export QT_FONT_DPI=192
 
 
-PS1='[\u@\h \W]\$ '
 
 
 
@@ -42,27 +43,6 @@ alias df='df -h'
 #add new fonts
 alias update-fc='sudo fc-cache -fv'
 
-#copy/paste all content of /etc/skel over to home folder - backup of config created - beware
-#skel alias has been replaced with a script at /usr/local/bin/skel
-
-#backup contents of /etc/skel to hidden backup folder in home/user
-alias bupskel='cp -Rf /etc/skel ~/.skel-backup-$(date +%Y.%m.%d-%H.%M.%S)'
-
-#copy shell configs
-alias cb='cp /etc/skel/.bashrc ~/.bashrc && exec bash'
-alias cz='cp /etc/skel/.zshrc ~/.zshrc && echo "Copied."'
-alias cf='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Copied."'
-
-#switch between bash and zsh
-alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
-alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
-alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
-
-
-
-
-
-
 #get fastest mirrors in your neighborhood
 alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
 alias mirrord="sudo reflector --latest 30 --number 10 --sort delay --save /etc/pacman.d/mirrorlist"
@@ -74,27 +54,13 @@ alias mirrorxx="sudo reflector --age 6 --latest 20  --fastest 20 --threads 20 --
 alias ram='rate-mirrors --allow-root --disable-comments arch | sudo tee /etc/pacman.d/mirrorlist'
 alias rams='rate-mirrors --allow-root --disable-comments --protocol https arch  | sudo tee /etc/pacman.d/mirrorlist'
 
-#mounting the folder Public for exchange between host and guest on virtualbox
-alias vbm="sudo /usr/local/bin/arcolinux-vbox-share"
-
-#enabling vmware services
-alias start-vmware="sudo systemctl enable --now vmtoolsd.service"
-alias vmware-start="sudo systemctl enable --now vmtoolsd.service"
-alias sv="sudo systemctl enable --now vmtoolsd.service"
-
 #Cleanup orphaned packages
 alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
 
 #clear
 alias clean="clear; seq 1 $(tput cols) | sort -R | sparklines | lolcat"
 
-#search content with ripgrep
-alias rg="rg --sort path"
 
-
-#btrfs aliases
-alias btrfsfs="sudo btrfs filesystem df /"
-alias btrfsli="sudo btrfs su li / -t"
 
 #arcolinux applications
 #att is a symbolic link now
@@ -110,7 +76,5 @@ alias avs="arcolinux-vbox-share"
 alias awa="arcolinux-welcome-app"
 
 
-
-
-cd ~
 eval "$(starship init bash)"
+export XDG_CONFIG_HOME=/home/jason/.dotfiles

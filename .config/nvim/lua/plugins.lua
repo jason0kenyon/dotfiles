@@ -11,7 +11,11 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
-  
+  use 'onsails/lspkind.nvim'
+use {
+	"windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
+   }
   --large collection of snippets
   use "rafamadriz/friendly-snippets"
   --snippet engine
@@ -22,20 +26,12 @@ return require('packer').startup(function(use)
   --assists cmp with regular expression support
   use_rocks 'jsregexp'
   --colorschemes
+  use 'nvim-tree/nvim-web-devicons'
   use 'folke/tokyonight.nvim'
   use 'Mofiqul/dracula.nvim'
   --custom autocomplete menu with icons 
   --file tree
-use {
-  requires = {'kyazdani42/nvim-web-devicons'}
-}
-  use {
-  'kyazdani42/nvim-tree.lua',
-  requires = {
-    'kyazdani42/nvim-web-devicons', -- optional, for file icons
-  },
-  tag = 'nightly' -- optional, updated every week. (see issue #1193)
-}
+  use 'kyazdani42/nvim-tree.lua'
   --status bar
   use {
   'nvim-lualine/lualine.nvim',
@@ -66,7 +62,7 @@ use {
     }
   end
 }
-use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'kyazdani42/nvim-web-devicons'}
+use 'akinsho/bufferline.nvim'
 use 'nvim-lua/plenary.nvim'
 use 'nvim-telescope/telescope.nvim'
    end
