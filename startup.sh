@@ -23,7 +23,7 @@ done
 if [ "$XDG_CONFIG_HOME" != "$HOME/.dotfiles" ] ; then
   echo "export XDG_CONFIG_HOME=$HOME/.dotfiles" >> "$HOME/.bashrc" ; echo "export XDG_CONFIG_HOME=$HOME/.dotfiles" >> "$HOME/.zshrc"
   source "$HOME/.bashrc" ; source "$HOME/.zshrc"
-  echo -e "set XDG_CONFIG_HOME to $XDG_CONFIG_HOME\n"
+  echo -e "I changed XDG_CONFIG_HOME to $XDG_CONFIG_HOME\n"
 fi
 
-echo "success"
+echo "success\nnew variable appended to your bashrc and zshrc"

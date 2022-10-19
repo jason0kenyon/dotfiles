@@ -15,6 +15,7 @@ return require('packer').startup(function(use)
   --large collection of snippets
   use "rafamadriz/friendly-snippets"
   --snippet engine
+  use 'windwp/nvim-ts-autotag'
   use 'L3MON4D3/LuaSnip'
   --allows cmp, the autocomplete engine, to interface with luasnip, the snippet engine.
   use 'saadparwaiz1/cmp_luasnip'
@@ -55,7 +56,16 @@ use 'dhruvasagar/vim-table-mode'
 use {'akinsho/org-bullets.nvim', config = function()
   require('org-bullets').setup()
 end}
-
+use {
+  "folke/which-key.nvim",
+  config = function()
+    require("which-key").setup {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+  end
+}
 use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'kyazdani42/nvim-web-devicons'}
 use 'nvim-lua/plenary.nvim'
 use 'nvim-telescope/telescope.nvim'

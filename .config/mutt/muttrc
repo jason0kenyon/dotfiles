@@ -31,3 +31,5 @@ source "$XDG_CONFIG_HOME/mutt/j0k.muttrc"
 # Here we use the $folder variable that has just been set in the sourced file.
 # We must set it right now otherwise the 'folder' variable will change in the next sourced file.
 folder-hook $folder 'source $XDG_CONFIG_HOME/mutt/j0k.muttrc'
+source /usr/share/mutt-wizard/mutt-wizard.muttrc
+macro index,pager i1 '<sync-mailbox><enter-command>source /home/jason/.dotfiles/mutt/accounts/jason0kenyon@gmail.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to jason0kenyon@gmail.com"

@@ -12,6 +12,9 @@ require("luasnip.loaders.from_snipmate").lazy_load()
 require("luasnip.loaders.from_snipmate").lazy_load({ path = { "$HOME/.config/nvim/snippets" } })
 require'nvim-treesitter.configs'.setup {
     --syntax highlighting
+     autotag ={
+	enable=true
+      },
     highlight = {
       enable = true,
       -- Setting this to true or a list of languages will run `:h syntax` and tree-sitter at the same time.
@@ -36,7 +39,7 @@ require'nvim-treesitter.configs'.setup {
  ]]
 --basic vim configuration
 vim.cmd([[
-	let mapleader=","
+	let mapleader="\<Space>"
 	set conceallevel=2
 	set concealcursor=nc
 	set clipboard=unnamedplus
@@ -48,7 +51,6 @@ vim.cmd([[
         set foldexpr=nvim_treesitter#foldexpr()
 ]])
 }
-
 vim.opt.termguicolors = true
 require("bufferline").setup{}
 require('orgmode').setup_ts_grammar()
@@ -115,8 +117,23 @@ require('lualine').setup {
   inactive_winbar = {},
   extensions = {}
 }
+
 local builtin = require('telescope.builtin')
 vim.keymap.set('n','<leader><leader>', builtin.find_files, {})
-vim.keymap.set('n', '<leader>m', builtin.live_grep, {})
-vim.keymap.set('n', 'fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>g', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>ff', builtin.buffers, {})
 vim.keymap.set('n', 'fh', builtin.help_tags, {})
+
+  require("telescope").setup {
+    defaults = {
+      mappings = {
+        i = { ["<leader>q"] = "close"},
+        n = { ["<leader>q"] = "close"},
+        
+      }
+    }
+  }
+
+vim.keymap.set('n', '<leader>v', '<CMD>vsplit<CR>')
+vim.keymap.set('n', '<leader>q', '<CMD>quit<CR>')
+vim.keymap.set('n', '<leader>n', '<CMD>split<CR>')
