@@ -12,12 +12,19 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
   use 'onsails/lspkind.nvim'
+ use 'ThePrimeagen/vim-be-good'
+use {"akinsho/toggleterm.nvim", tag = '*', config = function()
+  require("toggleterm").setup()
+end}
 use {
 	"windwp/nvim-autopairs",
     config = function() require("nvim-autopairs").setup {} end
    }
   --large collection of snippets
   use "rafamadriz/friendly-snippets"
+use {"akinsho/toggleterm.nvim", tag = '*', config = function()
+  require("toggleterm").setup()
+end}
   --snippet engine
   use 'windwp/nvim-ts-autotag'
   use 'L3MON4D3/LuaSnip'
@@ -29,7 +36,8 @@ use {
   use 'nvim-tree/nvim-web-devicons'
   use 'folke/tokyonight.nvim'
   use 'Mofiqul/dracula.nvim'
-  --custom autocomplete menu with icons 
+  use 'https://github.com/RRethy/vim-illuminate.git'
+--custom autocomplete menu with icons 
   --file tree
   use 'kyazdani42/nvim-tree.lua'
   --status bar
