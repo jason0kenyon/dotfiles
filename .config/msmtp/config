@@ -1,0 +1,12 @@
+account jason0kenyon@gmail.com
+host smpt.gmail.com
+port 587
+from jason0kenyon@gmail.com
+user jason0kenyon@gmail.com
+passwordeval "pass jason0kenyon@gmail.com"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/jason/.dotfiles/msmtp/msmtp.log
+# tls_starttls
+

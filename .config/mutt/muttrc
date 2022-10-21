@@ -1,35 +1,4 @@
-##imports
-#vim keys
-source $XDG_CONFIG_HOME/mutt/keys.muttrc
-#colorscheme
-source $XDG_CONFIG_HOME/mutt/dracula.muttrc
-
-
-##macros
-#open links
-macro index,pager \CP "<enter-command>set pipe_decode = yes<enter><pipe-message>urlview<enter><enter-command>set pipe_decode = no<enter>""view URLs"
-#switch accounts
-macro index \CN '<sync-mailbox><refresh><enter-command>source $XDG_CONFIG_HOME/mutt/j0k2.muttrc<enter><change-folder>!<enter>'
-macro index \CM '<sync-mailbox><refresh><enter-command>source $XDG_CONFIG_HOME/mutt/j0k.muttrc<enter><change-folder>!<enter>'
-
-##settings
-#sort by recency
-set sort = reverse-date-received 
-set sort_aux=reverse-last-date-received
-#neovim
-set editor = "nvim"
-#require encrypted connection
-set ssl_force_tls = yes 
-set pipe_decode = yes
-set pipe_decode_weed = yes
-##second account
-source "$XDG_CONFIG_HOME/mutt/j0k2.muttrc"
-folder-hook jason0kenyon2@gmail.com/ 'source $XDG_CONFIG_HOME/mutt/j0k2.muttrc'
-
-## main account
-source "$XDG_CONFIG_HOME/mutt/j0k.muttrc"
-# Here we use the $folder variable that has just been set in the sourced file.
-# We must set it right now otherwise the 'folder' variable will change in the next sourced file.
-folder-hook $folder 'source $XDG_CONFIG_HOME/mutt/j0k.muttrc'
+# vim: filetype=neomuttrc
 source /usr/share/mutt-wizard/mutt-wizard.muttrc
+source /home/jason/.dotfiles/mutt/accounts/jason0kenyon@gmail.com.muttrc
 macro index,pager i1 '<sync-mailbox><enter-command>source /home/jason/.dotfiles/mutt/accounts/jason0kenyon@gmail.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to jason0kenyon@gmail.com"
