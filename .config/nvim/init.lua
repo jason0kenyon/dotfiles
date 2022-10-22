@@ -127,15 +127,8 @@ vim.keymap.set('n', '<leader>g', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>ff', builtin.buffers, {})
 vim.keymap.set('n', 'fh', builtin.help_tags, {})
 
-  require("telescope").setup {
-    defaults = {
-      mappings = {
-        i = { ["<leader>q"] = "close"},
-        n = { ["<leader>q"] = "close"},
-        
-      }
-    }
-  }
+  require("telescope").setup {}
+
 
 local npairs = require("nvim-autopairs")
 local Rule = require('nvim-autopairs.rule')
@@ -181,6 +174,7 @@ vim.keymap.set('n', '<leader>qq', '<CMD>q!<CR>')
 vim.keymap.set('n', '<leader>wq', '<CMD>wq!<CR>')-- default configuration
 vim.keymap.set('n', '<leader>w', '<CMD>w!<CR>')-- default configuration
 vim.keymap.set('n', '<leader>ww', '<CMD>w!<CR>')-- default configuration
+vim.keymap.set('i', '<Bslash>', '<Nop>')
 require('illuminate').configure({
     -- providers: provider used to get references in the buffer, ordered by priority
     providers = {

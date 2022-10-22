@@ -3,7 +3,6 @@ vim.keymap.set('n', '<leader>q', '<CMD>quit<CR>')
 vim.keymap.set('n', '<leader>qq', '<CMD>q!<CR>')
 vim.keymap.set('n', '<leader>wq', '<CMD>wq!<CR>')
 vim.keymap.set('n', '<leader>n', '<CMD>split<CR>')
-vim.keymap.set('i', '<leader>q','<CMD>telescope.actions.close<CR>')
 vim.keymap.set('i', 'jk', '<ESC>', {noremap=true})
 --Quick write
 vim.keymap.set('n','<c-k>','<Cmd>w<CR>',{noremap=true})
