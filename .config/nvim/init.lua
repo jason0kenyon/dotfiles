@@ -174,7 +174,6 @@ vim.keymap.set('n', '<leader>qq', '<CMD>q!<CR>')
 vim.keymap.set('n', '<leader>wq', '<CMD>wq!<CR>')-- default configuration
 vim.keymap.set('n', '<leader>w', '<CMD>w!<CR>')-- default configuration
 vim.keymap.set('n', '<leader>ww', '<CMD>w!<CR>')-- default configuration
-vim.keymap.set('i', '<Bslash>', '<Nop>')
 require('illuminate').configure({
     -- providers: provider used to get references in the buffer, ordered by priority
     providers = {
