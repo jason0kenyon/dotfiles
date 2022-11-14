@@ -98,6 +98,10 @@ keys = [
        lazy.spawn(browser),
        desc='Qutebrowser'
        ),
+Key([mod], "o",
+       lazy.spawn("dmenu"),
+       ),
+
 ]
 
 groups = [Group(i) for i in "123456789"]
