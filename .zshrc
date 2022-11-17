@@ -1,27 +1,57 @@
-source ~/.zplug/init.zsh
-### EXPORT ###
-export EDITOR='nvim'
-export VISUAL='nvim'
-export HISTCONTROL=ignoreboth:erasedups
-export PAGER='nvim'
-export PATH=$PATH:$HOME/.emacs.d/bin
-autoload -Uz compinit promptinit
-compinit
-_comp_options+=(globdots)
+
+export XDG_CONFIG_HOME=/home/jason/.dotfiles
+# Enable colors and change prompt:
+
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+
+# Basic auto/tab complete:
+autoload -U compinit
 zstyle ':completion:*' menu select
-zstyle ':completion::complete:*' gain-privileges 1
-##History
-HISTSIZE=10000000
-SAVEHIST=10000000
-HISTFILE="$HOME/.zsh_history"
-## vim keys
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)		# Include hidden files.
+
+# vi mode
 bindkey -v
-_fix_cursor() {
-   echo -ne '\e[5 q'
+export KEYTIMEOUT=1
+
+# Use vim keys in tab complete menu:
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -v '^?' backward-delete-char
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] ||
+     [[ $1 = 'block' ]]; then
+    echo -ne '\e[2 q'
+  elif [[ ${KEYMAP} == main ]] ||
+       [[ ${KEYMAP} == viins ]] ||
+       [[ ${KEYMAP} = '' ]] ||
+       [[ $1 = 'beam' ]]; then
+    echo -ne '\e[6 q'
+  fi
 }
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[6 q"
+}
+zle -N zle-line-init
+echo -ne '\e[6 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[6 q' ;} # Use beam shape cursor for each new prompt.
 
-precmd_functions+=(_fix_cursor)
 
+
+
+
+
+
+##dom
 alias em='emacsclient -nc'
 alias nm='neomutt'
 alias nv='nvim'
@@ -37,11 +67,6 @@ alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
-#readable output
-alias df='df -h'
-
-#add new fonts
-alias update-fc='sudo fc-cache -fv'
 
 
 
@@ -52,38 +77,11 @@ alias update-fc='sudo fc-cache -fv'
 
 
 
-#get fastest mirrors in your neighborhood
-alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
-alias mirrord="sudo reflector --latest 30 --number 10 --sort delay --save /etc/pacman.d/mirrorlist"
-alias mirrors="sudo reflector --latest 30 --number 10 --sort score --save /etc/pacman.d/mirrorlist"
-alias mirrora="sudo reflector --latest 30 --number 10 --sort age --save /etc/pacman.d/mirrorlist"
-#our experimental - best option for the moment
-alias mirrorx="sudo reflector --age 6 --latest 20  --fastest 20 --threads 5 --sort rate --protocol https --save /etc/pacman.d/mirrorlist"
-alias mirrorxx="sudo reflector --age 6 --latest 20  --fastest 20 --threads 20 --sort rate --protocol https --save /etc/pacman.d/mirrorlist"
-alias ram='rate-mirrors --allow-root --disable-comments arch | sudo tee /etc/pacman.d/mirrorlist'
-alias rams='rate-mirrors --allow-root --disable-comments --protocol https arch  | sudo tee /etc/pacman.d/mirrorlist'
-
-#Cleanup orphaned packages
-alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
-
-#clear
-alias clean="clear; seq 1 $(tput cols) | sort -R | sparklines | lolcat"
 
 
 
 
-#arcolinux applications
-#att is a symbolic link now
-#alias att="archlinux-tweak-tool"
-alias adt="arcolinux-desktop-trasher"
-alias abl="arcolinux-betterlockscreen"
-alias agm="arcolinux-get-mirrors"
-alias amr="arcolinux-mirrorlist-rank-info"
-alias aom="arcolinux-osbeck-as-mirror"
-alias ars="arcolinux-reflector-simple"
-alias atm="arcolinux-tellme"
-alias avs="arcolinux-vbox-share"
-alias awa="arcolinux-welcome-app"
+
+
+
 eval "$(starship init zsh)"
-#zsh plugins
-zplug "jeffreytse/zsh-vi-mode"

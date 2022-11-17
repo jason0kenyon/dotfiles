@@ -99,7 +99,7 @@ keys = [
        desc='Qutebrowser'
        ),
 Key([mod], "o",
-       lazy.spawn("dmenu"),
+       lazy.spawn("dmenu_run"),
        ),
 
 ]
