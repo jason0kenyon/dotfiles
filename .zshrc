@@ -1,4 +1,4 @@
-
+export EDITOR=emacs
 export XDG_CONFIG_HOME=/home/jason/.dotfiles
 # Enable colors and change prompt:
 
@@ -57,7 +57,7 @@ alias nm='neomutt'
 alias nv='nvim'
 alias vi='nvim'
 alias vim='nvim'
-
+alias sudo='sudo '
 alias la='exa -a --color=always --group-directories-first' # my preferred listing
 alias ls='exa --color=always --group-directories-first'  # all files and dirs
 alias ll='exa -al --color=always --group-directories-first'  # long format
