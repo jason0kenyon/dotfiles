@@ -1,3 +1,13 @@
+#+title: Doom Emacs Config
+#+property: header-args :tangle config.el
+
+
+
+
+
+* Theme
+#+begin_src emacs-lisp
+
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
@@ -39,7 +49,10 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
+#+end_src
 
+* Org
+#+begin_src emacs-lisp
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/projects/org/")
@@ -89,3 +102,5 @@
          "* %?"
          :target (file+head "%<%Y-%m-%d>.org"
                             "#+title: %<%Y-%m-%d>\n"))))
+
+#+end_src
