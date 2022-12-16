@@ -32,24 +32,17 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-font (font-spec :family "SourceCodePro" :size 36 :weight 'medium)
-      )
+(setq doom-variable-pitch-font (font-spec :family "SourceSansPro" :size 36 ))
+(setq doom-big-font (font-spec :family "SourceCodePro" :weight 'semibold :size 46 ))
+(setq doom-font (font-spec :family "SourceCodePro" :size 36 :weight 'semibold ))
+
 (setq doom-theme 'doom-one)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
+(setq doom-modeline-height 70)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/projects/org/")
-;; org roam stuff
-(after! org
-        (setq org-roam-directory "~/projects/org/org-roam/")
-        (setq org-roam-index-file "~/projects/org/org-roam/index.org"))
-(setq org-agenda-files '("~/projects/org/org-roam"))
-(setq org-clock-persist 'history)
-(org-clock-persistence-insinuate)
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -82,10 +75,41 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(setq org-roam-dailies-directory "daily/")
 
-(setq org-roam-dailies-capture-templates
-      '(("d" "default" entry
-         "* %?"
-         :target (file+head "%<%Y-%m-%d>.org"
-                            "#+title: %<%Y-%m-%d>\n"))))
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+
+(after! org
+
+        (setq org-directory "~/projects/org/")
+        (setq org-roam-directory "~/projects/org/org-roam/")
+        (setq org-agenda-files '("~/projects/org/org-roam/daily/" "~/projects/org/org-roam"))
+                )
+
+        (setq org-roam-dailies-directory "daily/")
+        (setq org-roam-dailies-capture-templates
+            '(("d" "default" entry
+                "* %?"
+                :target (file+head "%<%Y-%m-%d>.org"
+                                    "#+title: %<%Y-%m-%d>\n"))))
+
+(set-email-account! "jason0kenyon"
+  '((mu4e-sent-folder       . "/jason0kenyon/Sent Mail")
+    (mu4e-drafts-folder     . "/jason0kenyon/Drafts")
+    (mu4e-trash-folder      . "/jason0kenyon/Trash")
+    (mu4e-refile-folder     . "/jason0kenyon/All Mail")
+    (smtpmail-smtp-user     . "jason0kenyon@gmail.com")
+    (user-mail-address      . "jason0kenyon@gmail.com")    ;; only needed for mu < 1.4
+    (mu4e-compose-signature . "---\nJason Kenyon"))
+  t)
+
+
+(after! mu4e
+(setq mu4e-maildir-shortcuts
+    '((:maildir "/Inbox"    :key ?i)
+      (:maildir "/[Gmail]/Sent Mail" :key ?s)
+      (:maildir "/[Gmail]/Trash"     :key ?t)
+      (:maildir "/[Gmail]/Drafts"    :key ?d)
+      (:maildir "/[Gmail]/All Mail"  :key ?a)))
+
+  )

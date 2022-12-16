@@ -1,11 +1,10 @@
 export EDITOR=emacs
 export XDG_CONFIG_HOME=/home/jason/.dotfiles
 # Enable colors and change prompt:
-
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.zsh_history
-
+PATH=$PATH:~/.local/bin:~/.cargo/bin
 # Basic auto/tab complete:
 autoload -U compinit
 zstyle ':completion:*' menu select
@@ -52,7 +51,7 @@ preexec() { echo -ne '\e[6 q' ;} # Use beam shape cursor for each new prompt.
 
 
 ##dom
-alias em='emacsclient -nc'
+alias em='emacsclient -nc --alternate-editor='emacs''
 alias nm='neomutt'
 alias nv='nvim'
 alias vi='nvim'
