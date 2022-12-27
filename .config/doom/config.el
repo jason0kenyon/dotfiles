@@ -36,7 +36,7 @@
 (setq doom-big-font (font-spec :family "SourceCodePro" :weight 'semibold :size 46 ))
 (setq doom-font (font-spec :family "SourceCodePro" :size 36 :weight 'semibold ))
 
-(setq doom-theme 'doom-dark+)
+(setq doom-theme 'doom-vibrant)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -124,3 +124,8 @@
       (:maildir "/[Gmail]/All Mail"  :key ?a)))
 
   )
+
+(setq elfeed-feeds
+                   '(("http://arxiv.org/rss/math.MP" Papers Physics)
+                    ("http://arxiv.org/rss/math.QA" Papers QuantAlg)
+                    ))
