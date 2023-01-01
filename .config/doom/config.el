@@ -1,4 +1,4 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
@@ -34,14 +34,15 @@
 ;; `load-theme' function. This is the default:
 (setq doom-variable-pitch-font (font-spec :family "SourceSansPro" :size 36 ))
 (setq doom-big-font (font-spec :family "SourceCodePro" :weight 'semibold :size 46 ))
-(setq doom-font (font-spec :family "SourceCodePro" :size 36 :weight 'semibold ))
+(setq doom-font (font-spec :family "SourceCodePro" :size 42 :weight 'semibold ))
 
-(setq doom-theme 'doom-vibrant)
+(setq doom-theme 'doom-city-lights)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 (setq doom-modeline-height 70)
+(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -79,6 +80,70 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 
+(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
+(add-hook 'company-mode-hook 'company-box-mode)
+
+(setq company-box-icons-unknown 'fa_question_circle)
+
+(setq company-box-icons-elisp
+   '((fa_tag :face font-lock-function-name-face) ;; Function
+     (fa_cog :face font-lock-variable-name-face) ;; Variable
+     (fa_cube :face font-lock-constant-face) ;; Feature
+     (md_color_lens :face font-lock-doc-face))) ;; Face
+
+(setq company-box-icons-yasnippet 'fa_bookmark)
+
+(setq company-box-icons-lsp
+      '((1 . fa_text_height) ;; Text
+        (2 . (fa_tags :face font-lock-function-name-face)) ;; Method
+        (3 . (fa_tag :face font-lock-function-name-face)) ;; Function
+        (4 . (fa_tag :face font-lock-function-name-face)) ;; Constructor
+        (5 . (fa_cog :foreground "#FF9800")) ;; Field
+        (6 . (fa_cog :foreground "#FF9800")) ;; Variable
+        (7 . (fa_cube :foreground "#7C4DFF")) ;; Class
+        (8 . (fa_cube :foreground "#7C4DFF")) ;; Interface
+        (9 . (fa_cube :foreground "#7C4DFF")) ;; Module
+        (10 . (fa_cog :foreground "#FF9800")) ;; Property
+        (11 . md_settings_system_daydream) ;; Unit
+        (12 . (fa_cog :foreground "#FF9800")) ;; Value
+        (13 . (md_storage :face font-lock-type-face)) ;; Enum
+        (14 . (md_closed_caption :foreground "#009688")) ;; Keyword
+        (15 . md_closed_caption) ;; Snippet
+        (16 . (md_color_lens :face font-lock-doc-face)) ;; Color
+        (17 . fa_file_text_o) ;; File
+        (18 . md_refresh) ;; Reference
+        (19 . fa_folder_open) ;; Folder
+        (20 . (md_closed_caption :foreground "#009688")) ;; EnumMember
+        (21 . (fa_square :face font-lock-constant-face)) ;; Constant
+        (22 . (fa_cube :face font-lock-type-face)) ;; Struct
+        (23 . fa_calendar) ;; Event
+        (24 . fa_square_o) ;; Operator
+        (25 . fa_arrows)) ;; TypeParameter
+      )
+
+(after! company
+(setq company-idle-delay
+      (lambda () (if (company-in-string-or-comment) nil 0)))
+
+(setq company-minimum-prefix-length 1)
+(setq company-selection-wrap-around t)
+(company-tng-configure-default)
+)
+
+(defun org-roam-node-insert-immediate (arg &rest args)
+  (interactive "P")
+  (let ((args (cons arg args))
+        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                  '(:immediate-finish t)))))
+    (apply #'org-roam-node-insert args)))
+(map!
+ :leader
+ (:prefix ("n r" . "node roam")
+  :desc "quick insert" "i" #'org-roam-node-insert-immediate)
+ )
+(map! :leader
+      :desc "Org babel tangle" "m B" #'org-babel-tangle)
+
 (use-package! org-roam-ui
     :after org-roam ;; or :after org
 ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
@@ -90,19 +155,25 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+
 (after! org
 
         (setq org-directory "~/projects/org/")
         (setq org-roam-directory "~/projects/org/org-roam/")
-        (setq org-agenda-files '("~/projects/org/org-roam/daily/" "~/projects/org/org-roam"))
+        (setq org-agenda-files '("~/projects/org/org-roam"))
                 )
 
-        (setq org-roam-dailies-directory "daily/")
-        (setq org-roam-dailies-capture-templates
-            '(("d" "default" entry
-                "* %?"
-                :target (file+head "%<%Y-%m-%d>.org"
-                                    "#+title: %<%Y-%m-%d>\n"))))
+        (setq org-roam-capture-templates
+              '(("t" "daily" plain
+                 "* Journal\n\n%?\n\n* Tasks\n\n** TODO [/]\n1. [ ] Mindfulness(10min)\n2. [ ] Journaling(10min)\n3. [ ] Review Notes(10min)\n4. [ ] Check Out\n\n** Notes"
+                 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Daily")
+                 :unnarrowed t)
+
+                ("d" "default" plain
+                 "%?"
+                :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+                :unnarrowed t)
+                ))
 
 (set-email-account! "jason0kenyon"
   '((mu4e-sent-folder       . "/jason0kenyon/Sent Mail")
@@ -124,6 +195,11 @@
       (:maildir "/[Gmail]/All Mail"  :key ?a)))
 
   )
+(setq
+    send-mail-function 'smtpmail-send-it
+    smtpmail-smtp-server "smtp.gmail.com"
+    smtpmail-smtp-service 25
+)
 
 (setq elfeed-feeds
                    '(("http://arxiv.org/rss/math.MP" Papers Physics)
