@@ -49,8 +49,7 @@ preexec() { echo -ne '\e[6 q' ;} # Use beam shape cursor for each new prompt.
 
 
 
-
-##dom
+##
 alias em='emacsclient -nc --alternate-editor='emacs''
 alias nm='neomutt'
 alias nv='nvim'

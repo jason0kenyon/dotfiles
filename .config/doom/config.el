@@ -33,16 +33,15 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-variable-pitch-font (font-spec :family "SourceSansPro" :size 36 ))
-(setq doom-big-font (font-spec :family "SourceCodePro" :weight 'semibold :size 46 ))
-(setq doom-font (font-spec :family "SourceCodePro" :size 42 :weight 'semibold ))
+(setq doom-big-font (font-spec :family "Monoid" :weight 'semi-bold :size 46 ))
+(setq doom-font (font-spec :family "Monoid" :weight 'semi-bold :size 42 ))
 
-(setq doom-theme 'doom-city-lights)
+(setq doom-theme 'doom-monokai-pro)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 (setq doom-modeline-height 70)
-(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -79,47 +78,6 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-
-(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
-(add-hook 'company-mode-hook 'company-box-mode)
-
-(setq company-box-icons-unknown 'fa_question_circle)
-
-(setq company-box-icons-elisp
-   '((fa_tag :face font-lock-function-name-face) ;; Function
-     (fa_cog :face font-lock-variable-name-face) ;; Variable
-     (fa_cube :face font-lock-constant-face) ;; Feature
-     (md_color_lens :face font-lock-doc-face))) ;; Face
-
-(setq company-box-icons-yasnippet 'fa_bookmark)
-
-(setq company-box-icons-lsp
-      '((1 . fa_text_height) ;; Text
-        (2 . (fa_tags :face font-lock-function-name-face)) ;; Method
-        (3 . (fa_tag :face font-lock-function-name-face)) ;; Function
-        (4 . (fa_tag :face font-lock-function-name-face)) ;; Constructor
-        (5 . (fa_cog :foreground "#FF9800")) ;; Field
-        (6 . (fa_cog :foreground "#FF9800")) ;; Variable
-        (7 . (fa_cube :foreground "#7C4DFF")) ;; Class
-        (8 . (fa_cube :foreground "#7C4DFF")) ;; Interface
-        (9 . (fa_cube :foreground "#7C4DFF")) ;; Module
-        (10 . (fa_cog :foreground "#FF9800")) ;; Property
-        (11 . md_settings_system_daydream) ;; Unit
-        (12 . (fa_cog :foreground "#FF9800")) ;; Value
-        (13 . (md_storage :face font-lock-type-face)) ;; Enum
-        (14 . (md_closed_caption :foreground "#009688")) ;; Keyword
-        (15 . md_closed_caption) ;; Snippet
-        (16 . (md_color_lens :face font-lock-doc-face)) ;; Color
-        (17 . fa_file_text_o) ;; File
-        (18 . md_refresh) ;; Reference
-        (19 . fa_folder_open) ;; Folder
-        (20 . (md_closed_caption :foreground "#009688")) ;; EnumMember
-        (21 . (fa_square :face font-lock-constant-face)) ;; Constant
-        (22 . (fa_cube :face font-lock-type-face)) ;; Struct
-        (23 . fa_calendar) ;; Event
-        (24 . fa_square_o) ;; Operator
-        (25 . fa_arrows)) ;; TypeParameter
-      )
 
 (after! company
 (setq company-idle-delay
@@ -164,16 +122,55 @@
                 )
 
         (setq org-roam-capture-templates
-              '(("t" "daily" plain
-                 "* Journal\n\n%?\n\n* Tasks\n\n** TODO [/]\n1. [ ] Mindfulness(10min)\n2. [ ] Journaling(10min)\n3. [ ] Review Notes(10min)\n4. [ ] Check Out\n\n** Notes"
-                 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Daily")
-                 :unnarrowed t)
-
-                ("d" "default" plain
+              '(("t" "default" plain
                  "%?"
                 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                 :unnarrowed t)
+
+                ("d" "daily" plain
+                 "* Journal\n\n%?\n\n* Tasks\n** TODO [/]\n1. [ ] Mindfulness(10min)\n2. [ ] Journaling(5min)\n3. [ ] Review Notes(5min)\n4. [ ] Check Out\n** Notes"
+                 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Daily\n#+category: Daily")
+                 :unnarrowed t)
+
+                ("w" "weekly" plain
+                 "* Brainstorm\n\n%?\n\n* Note Review\n\n* Agenda"
+                 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Daily\n#+category: Weekly")
+                 :unnarrowed t)
+
+                ("a" "aim" plain
+                 "* Priority III\n\n* Statement\n\n%?\n\n* Action Plan\n** Maintenance\n** Overview\n\n* Week\n** One\n*** TODO\n*** Commments & Meta-cognition\n\n* Deadlines"
+                 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Daily\n#+category: Aim")
+                 :unnarrowed t)
+
                 ))
+
+(after! org
+(setq
+    org-fancy-priorities-list '("❗" "[B]" "[C]")
+   ;;org-fancy-priorities-list '("🟥" "🟧" "🟨")
+   org-priority-faces
+   '((?A :foreground "#ff6c6b" :weight bold)
+     (?B :foreground "#98be65" :weight bold)
+     (?C :foreground "#c678dd" :weight bold))
+   org-agenda-block-separator 8411)
+
+(setq org-agenda-custom-commands
+      '(("v" "A better agenda view"
+         ((tags "PRIORITY=\"A\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "High-priority unfinished tasks:")))
+          (tags "PRIORITY=\"B\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Medium-priority unfinished tasks:")))
+          (tags "PRIORITY=\"C\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Low-priority unfinished tasks:")))
+          (tags "customtag"
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Tasks marked with customtag:")))
+
+          (agenda "")
+          (alltodo ""))))))
 
 (set-email-account! "jason0kenyon"
   '((mu4e-sent-folder       . "/jason0kenyon/Sent Mail")
