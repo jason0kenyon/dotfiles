@@ -1,5 +1,6 @@
 export EDITOR=emacs
-export XDG_CONFIG_HOME=/home/jason/.dotfiles
+export XDG_CONFIG_HOME=/home/jason/.config
+export BROWSER=/usr/bin/brave
 # Enable colors and change prompt:
 HISTSIZE=10000
 SAVEHIST=10000
@@ -64,22 +65,4 @@ alias ll='exa -al --color=always --group-directories-first'  # long format
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 eval "$(starship init zsh)"

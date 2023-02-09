@@ -32,11 +32,11 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-variable-pitch-font (font-spec :family "SourceSansPro" :size 36 ))
+(setq doom-variable-pitch-font (font-spec :family "Monoid" :size 36 ))
 (setq doom-big-font (font-spec :family "Monoid" :weight 'semi-bold :size 46 ))
 (setq doom-font (font-spec :family "Monoid" :weight 'semi-bold :size 42 ))
 
-(setq doom-theme 'doom-monokai-pro)
+(setq doom-theme 'doom-ephemeral)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -79,6 +79,11 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 
+(add-hook 'text-mode-hook 'company-box-mode)
+
+(add-hook 'text-mode-hook
+          (lambda ()
+            (push '("\\mathbb{C}" . ?ℂ) prettify-symbols-alist)))
 (after! company
 (setq company-idle-delay
       (lambda () (if (company-in-string-or-comment) nil 0)))
@@ -181,15 +186,30 @@
     (user-mail-address      . "jason0kenyon@gmail.com")    ;; only needed for mu < 1.4
     (mu4e-compose-signature . "---\nJason Kenyon"))
   t)
+(set-email-account! "jkenyon3"
+  '((mu4e-sent-folder       . "/jkenyon3/Sent Mail")
+    (mu4e-drafts-folder     . "/jkenyon3/Drafts")
+    (mu4e-trash-folder      . "/jkenyon3/Trash")
+    (mu4e-refile-folder     . "/jkenyon3/All Mail")
+    (smtpmail-smtp-user     . "jkenyon3@binghamton.edu")
+    (user-mail-address      . "jkenyon3@binghamton.edu")    ;; only needed for mu < 1.4
+    (mu4e-compose-signature . "---\nJason Kenyon"))
+  t)
 
 
 (after! mu4e
 (setq mu4e-maildir-shortcuts
-    '((:maildir "/Inbox"    :key ?i)
-      (:maildir "/[Gmail]/Sent Mail" :key ?s)
-      (:maildir "/[Gmail]/Trash"     :key ?t)
-      (:maildir "/[Gmail]/Drafts"    :key ?d)
-      (:maildir "/[Gmail]/All Mail"  :key ?a)))
+    '((:maildir "/jason0kenyon/Inbox"    :key ?i)
+      (:maildir "/jason0kenyon/[Gmail]/Sent Mail" :key ?s)
+      (:maildir "/jason0kenyon/[Gmail]/Trash"     :key ?t)
+      (:maildir "/jason0kenyon/[Gmail]/Drafts"    :key ?d)
+      (:maildir "/jason0kenyon/[Gmail]/All Mail"  :key ?a)))
+(setq mu4e-maildir-shortcuts
+    '((:maildir "/jkenyon3/Inbox"    :key ?i)
+      (:maildir "/jkenyon3/[Gmail]/Sent Mail" :key ?s)
+      (:maildir "/jkenyon3/[Gmail]/Trash"     :key ?t)
+      (:maildir "/jkenyon3/[Gmail]/Drafts"    :key ?d)
+      (:maildir "/jkenyon3/[Gmail]/All Mail"  :key ?a)))
 
   )
 (setq
